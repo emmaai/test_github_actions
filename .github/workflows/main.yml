@@ -1,0 +1,43 @@
+name: Test auto version release
+on:
+  push:
+    branches:
+      - main
+jobs:
+  bump_version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade setuptools
+          python -m pip install --upgrade \
+           toml \
+           wheel \
+           twine \
+           packaging
+          python -m pip freeze
+
+      - name: Patch Package Versions
+        run: |
+          # -1: auto increment of patch number
+          # other positive integers: set the patch number accordingly
+          python ./scripts/patch_version.py -1 dummy/_version.py
+          echo "TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')" >> $GITHUB_ENV
+
+      - name: Push and tag versions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git commit -a -m "Bump version to ${{ env.TAG }}"
+          git push origin
+          git tag ${{ env.TAG }}
+          git push origin --follow-tags
+          git push origin --tags
