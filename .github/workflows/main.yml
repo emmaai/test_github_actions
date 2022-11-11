@@ -40,7 +40,6 @@ jobs:
           git config --global user.email "$GITHUB_ACTOR@auto.noreply"
           git config --global user.name "$GITHUB_ACTOR"
           git commit -a -m "Bump version to ${{ env.TAG }}"
-          git push origin
-          git tag ${{ env.TAG }}
           git push origin --follow-tags
+          git tag ${{ env.TAG }}
           git push origin --tags
