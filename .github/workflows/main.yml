@@ -35,7 +35,10 @@ jobs:
       - name: Push and tag versions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: autoaction
         run: |
+          git config --global user.email "$GITHUB_ACTOR@auto.noreply"
+          git config --global user.name "$GITHUB_ACTOR"
           git commit -a -m "Bump version to ${{ env.TAG }}"
           git push origin
           git tag ${{ env.TAG }}
