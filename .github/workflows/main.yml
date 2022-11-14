@@ -41,6 +41,7 @@ jobs:
           echo "TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')" >> $GITHUB_ENV
 
       - name: Push and tag versions
+        if: steps.verify-changed-version.outputs.any_changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: autoaction
