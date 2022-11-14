@@ -34,7 +34,6 @@ jobs:
 
       - name: Patch Package Versions when code change.
         if: steps.verify-changed-version.outputs.any_changed == 'true'
-        id: patch-version
         run: |
           # -1: auto increment of patch number
           # other positive integers: set the patch number accordingly
@@ -58,7 +57,7 @@ jobs:
   publish:
     needs: [bump_version]
     runs-on: ubuntu-latest
-    if: always() && (needs.bump_version.steps.push-new-tag.result == 'success') 
+    if: always() && (needs.bump_version.steps.push-new-tag.outcome == 'success') 
     steps:
       - uses: actions/checkout@v2
       - name: Publish if there is new version
