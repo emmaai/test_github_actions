@@ -34,6 +34,7 @@ jobs:
 
       - name: Patch Package Versions when code change.
         if: steps.verify-changed-version.outputs.any_changed == 'true'
+        id: patch-version
         run: |
           # -1: auto increment of patch number
           # other positive integers: set the patch number accordingly
@@ -41,7 +42,7 @@ jobs:
           echo "TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')" >> $GITHUB_ENV
 
       - name: Push and tag versions
-        if: success() 
+        if: steps.patch-version.outcome == 'success' 
         id: push-new-tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
