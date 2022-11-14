@@ -58,9 +58,9 @@ jobs:
   publish:
     needs: [bump_version]
     runs-on: ubuntu-latest
-    if: always() && (needs.bump_version.result == 'success') 
+    if: (needs.bump_version.steps.push-new-tag.result == 'success') 
     steps:
       - uses: actions/checkout@v2
       - name: Publish if there is new version
         run: |
-          echo "publish"
+          echo "${{ needs.bump_version.steps.push-new-tag.outcome }}"
