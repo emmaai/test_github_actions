@@ -42,6 +42,7 @@ jobs:
 
       - name: Push and tag versions
         if: steps.verify-changed-version.outputs.any_changed == 'true'
+        id: push-new-tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: autoaction
@@ -52,3 +53,13 @@ jobs:
           git push origin --follow-tags
           git tag ${{ env.TAG }}
           git push origin --tags
+
+  publish:
+    needs: [bump_version]
+    runs-on: ubuntu-latest
+    if: always() && (needs.bump_version.steps.push-new-tag == 'success') 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish if there is new version
+        run: |
+          echo "publish"
