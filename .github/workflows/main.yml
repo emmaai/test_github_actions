@@ -54,11 +54,14 @@ jobs:
           git push origin --follow-tags
           git tag ${{ env.TAG }}
           git push origin --tags
+          echo "NEW=true" >> $GITHUB_OUTPUT
+    outputs:
+      new_version: steps.push-new-tag.outputs.NEW
 
   publish:
     needs: [bump_version]
     runs-on: ubuntu-latest
-    if: (needs.bump_version.result == 'success') 
+    if: always() && (needs.bump_version.outputs.new_version == 'true') 
     steps:
       - uses: actions/checkout@v2
       - name: Publish if there is new version
