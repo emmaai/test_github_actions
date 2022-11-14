@@ -56,7 +56,7 @@ jobs:
           git push origin --tags
           echo "NEW=true" >> $GITHUB_OUTPUT
     outputs:
-      new_version: steps.push-new-tag.outputs.NEW
+      new_version: ${{ steps.push-new-tag.outputs.NEW }}
 
   publish:
     needs: [bump_version]
