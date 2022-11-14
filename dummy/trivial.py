@@ -1,1 +1,1 @@
-a = dict()
+a = dict(a=1)
