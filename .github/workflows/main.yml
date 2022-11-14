@@ -58,7 +58,7 @@ jobs:
   publish:
     needs: [bump_version]
     runs-on: ubuntu-latest
-    if: (needs.bump_version.steps.push-new-tag.result == 'success') 
+    if: (needs.bump_version.result == 'success') 
     steps:
       - uses: actions/checkout@v2
       - name: Publish if there is new version
