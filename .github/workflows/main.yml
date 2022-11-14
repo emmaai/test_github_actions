@@ -62,9 +62,8 @@ jobs:
     needs: [bump_version]
     runs-on: ubuntu-latest
     if: |
-      always() && 
       (needs.bump_version.result == 'success') &&
-      (needs.bump_version.outputs.new_version == 'true') 
+      (needs.bump_version.outputs.new_version) 
     steps:
       - uses: actions/checkout@v2
       - name: Publish if there is new version
