@@ -44,10 +44,10 @@ jobs:
           # -1: auto increment of patch number
           # other positive integers: set the patch number accordingly
           python ./scripts/patch_version.py -1 dummy/_version.py
-          echo "TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')" >> $GITHUB_ENV
+          TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')
           git config --global user.email "$GITHUB_ACTOR@auto.noreply"
           git config --global user.name "$GITHUB_ACTOR"
-          git commit -a -m "Bump version to ${{ env.TAG }}"
+          git commit -a -m "Bump version to $TAG"
           git push origin HEAD:${{ github.head_ref }} --follow-tags
 
       - name: Push and tag versions
@@ -58,7 +58,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: autoaction
         run: |
-          git tag ${{ env.TAG }}
+          TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')
+          git tag $TAG
           git push origin --tags
           echo "NEW=true" >> $GITHUB_OUTPUT
     outputs:
