@@ -4,3 +4,4 @@ c = 5
 d = "some other change"
 f = "should not bump again"
 g = "bump once"
+h = "and only once"
