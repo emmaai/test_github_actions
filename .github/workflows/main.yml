@@ -39,9 +39,12 @@ jobs:
         if: steps.verify-changed-version.outputs.any_changed == 'true'
           && !(github.ref == 'refs/heads/main')
         id: patch-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: autoaction
         run: |
+          CTAG=$(git ls-remote --tags --sort='version:refname' | tail -1 | cut -d '/' -f3)
           TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')
-          CTAG=$(git tag --sort=taggerdate | tail -1)
           echo "$TAG" 
           echo "$CTAG"
           if [[ $TAG == $CTAG || -z $CTAG ]]; then
