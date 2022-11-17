@@ -38,6 +38,7 @@ jobs:
 
       - name: Patch Package Versions when code change.
         if: steps.verify-changed-version.outputs.any_changed == 'true'
+          && !(github.ref == 'refs/heads/main')
         id: patch-version
         run: |
           # -1: auto increment of patch number
@@ -50,7 +51,7 @@ jobs:
           git push origin HEAD:${{ github.head_ref }} --follow-tags
 
       - name: Push and tag versions
-        if: steps.patch-version.outcome == 'success' 
+        if: steps.verify-changed-version.outputs.any_changed == 'true'
           && github.ref == 'refs/heads/main'
         id: push-new-tag
         env:
