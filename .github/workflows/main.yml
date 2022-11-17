@@ -2,14 +2,13 @@ name: Test auto version release
 on:
   pull_request:
     types: [opened]
-  push:
-    branches:
-      - main
 jobs:
   bump_version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup Python
         uses: actions/setup-python@v1
