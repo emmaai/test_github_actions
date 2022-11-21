@@ -1,0 +1,25 @@
+name: Image build and push 
+on:
+  pull_request:
+    paths:
+      - 'tests/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'tests/**'
+  workflow_run:
+    workflows: ["Test auto version release"]
+    branches: [main]
+    types:
+      - completed
+jobs:
+  set_tags:
+    if: github.ref == 'refs/heads/main'
+      && (github.event_name == 'push' || (github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build new docker 
+        run: |
+          echo "build new docker"
