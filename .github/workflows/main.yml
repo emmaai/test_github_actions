@@ -1,11 +1,14 @@
 name: Test auto version release
 on:
   pull_request:
+    types: [opened]
   push:
-    branches: [main]
 
 jobs:
   bump_version:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_ACTOR: autoaction
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -39,9 +42,6 @@ jobs:
         if: steps.verify-changed-version.outputs.any_changed == 'true'
           && !(github.ref == 'refs/heads/main')
         id: patch-version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: autoaction
         run: |
           CTAG=$(git ls-remote --tags --sort='version:refname' | tail -1 | cut -d '/' -f3)
           TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')
@@ -55,16 +55,13 @@ jobs:
           git config --global user.email "$GITHUB_ACTOR@auto.noreply"
           git config --global user.name "$GITHUB_ACTOR"
           git commit -a -m "Bump version to $TAG"
-          git push origin HEAD:${{ github.head_ref }} --follow-tags
+          git push origin --follow-tags
           fi
 
       - name: Push and tag versions
         if: steps.verify-changed-version.outputs.any_changed == 'true'
           && github.ref == 'refs/heads/main'
         id: push-new-tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: autoaction
         run: |
           TAG=$(cat dummy/_version.py  | sed 's/[^0-9|.]//g')
           git tag $TAG
@@ -78,7 +75,9 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       (needs.bump_version.result == 'success') &&
-      (needs.bump_version.outputs.new_version) 
+      (needs.bump_version.outputs.new_version) &&
+      (github.ref == 'refs/heads/main')
+
     steps:
       - uses: actions/checkout@v2
       - name: Publish if there is new version
