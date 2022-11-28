@@ -10,9 +10,10 @@ on:
       - completed  
 
 jobs:
-  bump_version:
+  publish_new_version:
     if: |
-        github.event.workflow_run.conclusion == 'success'
+        github.event.pull_request.merged == true
+        && (github.event.workflow_run.conclusion == 'success')
     
     runs-on: ubuntu-latest
     steps:
