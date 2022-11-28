@@ -11,10 +11,10 @@ on:
       - completed
 
 jobs:
-  bump_version:
+  build_wheels:
     if: |
-      github.ref == 'refs/heads/main'
-        && github.event.workflow_run.conclusion == 'success'
+      git.event_name == 'push' || (github.ref == 'refs/heads/main'
+        && github.event.workflow_run.conclusion == 'success')
 
     runs-on: ubuntu-latest
     steps:
@@ -24,4 +24,4 @@ jobs:
 
       - name: build wheels
         run: |
-          echo "build wheels only on new release"
+          echo "build wheels either on push or only on new release"
