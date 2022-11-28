@@ -3,6 +3,8 @@ on:
   pull_request:
     types: [closed]
     branches: [main]
+    paths:
+      - dummy/**
 
 jobs:
   bump_version:
@@ -17,16 +19,7 @@ jobs:
           git fetch --tags origin
           git tag
 
-      - name: Verify Changed files
-        uses: tj-actions/changed-files@v34
-        id: verify-changed-version
-        with:
-          files: |
-              dummy/**
-
       - name: Patch Package Versions when code change.
-        if: steps.verify-changed-version.outputs.any_changed == 'true'
-          && (github.event_name == 'pull_request')
         id: patch-version
         uses: anothrNick/github-tag-action@v1
         env:
