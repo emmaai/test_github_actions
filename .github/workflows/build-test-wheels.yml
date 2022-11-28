@@ -1,0 +1,27 @@
+name: Build and test wheels 
+
+on:
+  push:
+    branches-ignore: [main]
+    paths:
+      - '**'
+  workflow_run:
+    workflows: ["Test auto version release"]
+    types:
+      - completed
+
+jobs:
+  bump_version:
+    if: |
+      github.ref == "ref/heads/main"
+        && github.event.workflow_run.conclusion == 'success'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: build wheels
+        run: |
+          echo "build wheels only on new release"
