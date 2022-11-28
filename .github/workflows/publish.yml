@@ -3,6 +3,7 @@ name: Test publish
 on:
   push:
     tags:
+    branches: [main]
 
 jobs:
   publish_new_version:
