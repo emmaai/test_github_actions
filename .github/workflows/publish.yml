@@ -1,37 +1,14 @@
 name: Test publish 
 
 on:
-  pull_request:
-    types: [closed]
-    branches: [main]
-  workflow_run:
-    workflows: ["Test auto version release"]
-    types:
-      - completed  
+  push:
+    tags: ['*']
 
 jobs:
   publish_new_version:
-    if: |
-        github.event.pull_request.merged == true
-        && (github.event.workflow_run.conclusion == 'success')
-    
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-
-      - name: Verify Changed files
-        uses: tj-actions/changed-files@v32
-        id: verify-changed-version
-        with:
-          files: |
-              dummy/**
-
-      - name: Push and tag versions
-        if: steps.verify-changed-version.outputs.any_changed == 'true'
-        id: push-new-tag
-        run: |
-          echo "NEW=true" >> $GITHUB_OUTPUT
-    outputs: 
-      new_version: ${{ steps.push-new-tag.outputs.NEW }}
+      - uses: ncipollo/release-action@v1
