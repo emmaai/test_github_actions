@@ -1,9 +1,11 @@
 name: Test publish 
 
 on:
+  pull_request:
+    types: [closed]
+    branches: [main]
   workflow_run:
     workflows: ["Test auto version release"]
-    branches: [main]
     types:
       - completed  
 
