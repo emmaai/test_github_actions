@@ -3,3 +3,5 @@ b = 4
 c = 5
 d = "some other change"
 f = "should bump when push to branch"
+g = "create release with the tag"
+
