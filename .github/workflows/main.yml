@@ -4,6 +4,7 @@ on:
     types: [closed]
     branches: [main]
   push:
+    branch-ignores: [main]
 
 jobs:
   bump_version:
