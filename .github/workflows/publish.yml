@@ -14,4 +14,5 @@ jobs:
       - run: |
           echo "TAG=$github.ref_name" \
           >> $GITHUB_OUTPUT
-          ehco $GITHUB_OUTPUT
+          echo ${{ github.ref_name }}
+          echo $GITHUB_OUTPUT
