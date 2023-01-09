@@ -1,8 +1,8 @@
-name: Test publish 
+name: Test publish
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
 
 jobs:
   publish_new_version:
@@ -11,3 +11,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+      - run: |
+          echo "TAG=$github.ref_name" \
+          >> $GITHUB_OUTPUT
+          ehco $GITHUB_OUTPUT
