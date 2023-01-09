@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          echo "TAG=$github.ref_name" \
+          echo "TAG=${{ github.ref_name }}" \
           >> $GITHUB_OUTPUT
           echo ${{ github.ref_name }}
           echo $GITHUB_OUTPUT
