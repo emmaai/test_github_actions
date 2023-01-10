@@ -47,7 +47,9 @@ jobs:
         id: tag-image
         run: |
           if [[ ! -z ${{ needs.set_dev_tags.outputs.image_tag}} ]]; then \
-          echo "TAG=${{ needs.set_dev_tags.outputs.image_tag}}" >>  $GITHUB_OUTPUT; else \
-          echo "TAG=${{ needs.set_release_tags.outputs.image_tag}}" >>  $GITHUB_OUTPUT; fi
+          echo "TAG=${{ needs.set_dev_tags.outputs.image_tag }}" >>  $GITHUB_OUTPUT; else \
+          echo "TAG=${{ needs.set_release_tags.outputs.image_tag }}" >>  $GITHUB_OUTPUT; fi
+          echo "${{ needs.set_dev_tags.outputs.image_tag }}"
+          echo "${{ needs.set_release_tags.outputs.image_tag }}"
       - run: |
           echo "TAG=${{ steps.tag-image.outputs.TAG }}"
