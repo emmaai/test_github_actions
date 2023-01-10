@@ -6,7 +6,6 @@ on:
 
 jobs:
   set_dev_tags:
-    if: github.ref_type != 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
