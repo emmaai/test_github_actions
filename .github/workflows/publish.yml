@@ -46,9 +46,9 @@ jobs:
       - name: Get image tag
         id: tag-image
         run: |
-          if [[ ! -n "${needs.set_dev_tags.outputs.image_tag// /}" ]]; then \
+          if [[ ! -z "${{ needs.set_dev_tags.outputs.image_tag }}" ]]; then \
           tag="${{ needs.set_dev_tags.outputs.image_tag }}"; fi
-          if [[ ! -n "${needs.set_release_tags.outputs.image_tag// /}" ]]; then \
+          if [[ ! -z "${{ needs.set_release_tags.outputs.image_tag }}" ]]; then \
           if [[ ! -z tag ]]; then tag=$tag",${{ needs.set_release_tags.outputs.image_tag }}"; else \
           tag="${{ needs.set_release_tags.outputs.image_tag }}"; fi \
           fi
