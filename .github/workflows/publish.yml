@@ -6,6 +6,7 @@ on:
 
 jobs:
   set_dev_tags:
+    if: github.ref_type != 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -47,6 +48,6 @@ jobs:
         run: |
           if [[ ! -z ${{ needs.set_dev_tags.outputs.image_tag}} ]]; then \
           echo "TAG=${{ needs.set_dev_tags.outputs.image_tag}}" >>  $GITHUB_OUTPUT; else \
-          echo "TAG=${{ needs.set_dev_tags.outputs.image_tag}}" >>  $GITHUB_OUTPUT; fi
+          echo "TAG=${{ needs.set_release_tags.outputs.image_tag}}" >>  $GITHUB_OUTPUT; fi
       - run: |
           echo "TAG=${{ steps.tag-image.outputs.TAG }}"
