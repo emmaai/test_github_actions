@@ -15,8 +15,7 @@ on:
     types:
       - completed
 env:
-  IMAGE_NAME: opendatacube/datacube-statistician
-
+  IMAGE_NAME: ${{ github.repository }}
 permissions:
   contents: read
   packages: write
