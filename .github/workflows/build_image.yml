@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - 'tests/**'
+      - 'docker/**'
   workflow_run:
     workflows: ["Test auto version release"]
     branches: [main]
