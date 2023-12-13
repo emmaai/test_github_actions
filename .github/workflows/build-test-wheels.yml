@@ -5,8 +5,8 @@ on:
     branches-ignore: [main]
     paths:
       - '**'
-  tags:
-    - '**'
+    tags:
+      - '**'
  
 permissions:
   contents: read
