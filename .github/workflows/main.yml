@@ -1,4 +1,4 @@
-name: Test auto version release
+name: Create a new tag
 on:
   pull_request:
     types: [closed]
