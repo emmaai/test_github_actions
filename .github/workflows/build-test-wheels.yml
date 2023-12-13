@@ -5,11 +5,9 @@ on:
     branches-ignore: [main]
     paths:
       - '**'
-  workflow_run:
-    workflows: ["Test auto version release"]
-    types:
-      - completed
-
+  tags:
+    - '**'
+ 
 permissions:
   contents: read
   packages: read
