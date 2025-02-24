@@ -12,6 +12,7 @@ permissions:
 jobs:
   delete-ghcr-image:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Install GitHub CLI
         run: |
