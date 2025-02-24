@@ -28,7 +28,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IMAGE_NAME: "test_github_actions-stages"
         run: |
-          gh api --paginate /user/packages/container/$IMAGE_NAME/versions > versions.json
+          gh api --paginate /user/packages/container/$IMAGE_NAME/versions > versions.json || echo "[]" > versions.json
           cat versions.json | jq '.[] | {id, created_at}'
 
       - name: Delete Old Image Versions
