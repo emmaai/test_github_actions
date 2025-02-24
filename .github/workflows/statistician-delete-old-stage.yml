@@ -26,7 +26,7 @@ jobs:
       - name: Get Image Versions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IMAGE_NAME: "odc-stats-stages"
+          IMAGE_NAME: "test_github_actions-stages"
         run: |
           gh api --paginate /user/packages/container/$IMAGE_NAME/versions > versions.json
           cat versions.json | jq '.[] | {id, created_at}'
@@ -34,7 +34,7 @@ jobs:
       - name: Delete Old Image Versions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IMAGE_NAME: "odc-stats-stages"
+          IMAGE_NAME: "test_github_actions-stages"
           DAYS_THRESHOLD: 7
         run: |
           NOW=$(date -u +%s)
