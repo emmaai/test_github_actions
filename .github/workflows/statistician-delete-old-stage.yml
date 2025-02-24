@@ -47,6 +47,6 @@ jobs:
 
             if [[ $CREATED_TIME -lt $THRESHOLD ]]; then
               echo "Deleting image version $ID (created at $CREATED_AT)"
-              gh api --method DELETE /user/packages/container/$IMAGE_NAME/versions/$ID
+              gh api --method DELETE /user/packages/container/$IMAGE_NAME
             fi
           done
