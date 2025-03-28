@@ -1,0 +1,17 @@
+name: Publish to S3 and PyPI
+
+on:
+  workflow_run:
+    workflows: ["Build and test wheels"]
+    branches: [main]
+    types:
+      - completed
+
+jobs:
+  publish-pypi:
+    if: |
+        github.event.workflow_run.conclusion == 'success'
+
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Triggered after successful Run Code Checks"
