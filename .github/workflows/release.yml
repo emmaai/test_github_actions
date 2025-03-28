@@ -12,7 +12,7 @@ jobs:
       - name: Dump event payload
         run: |
           echo "event: ${{ github.event.workflow_run.event }}"
-          echo "ref: ${{ github.event.workflow_run.ref }}"
+          echo "ref: ${{ github.ref }}"
           echo "head_branch: ${{ github.event.workflow_run.head_branch }}"
           echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
   publish:
