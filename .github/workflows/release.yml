@@ -13,11 +13,12 @@ jobs:
         run: |
           echo "event: ${{ github.event.workflow_run.event }}"
           echo "ref: ${{ github.ref }}"
+          echo "ref_type: ${{ github.ref_type }}"
           echo "head_branch: ${{ github.event.workflow_run.head_branch }}"
           echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
   publish:
     name: Push image
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main'}}
+    if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
         - run: echo "Publishing for tag SHA ${{ github.event.workflow_run.head_sha }}"
