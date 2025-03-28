@@ -4,4 +4,3 @@ c = 5
 d = "some other change"
 f = "should bump when push to branch"
 g = "should trigger test"
-k = "test publishing"
