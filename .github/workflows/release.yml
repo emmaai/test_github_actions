@@ -6,6 +6,15 @@ on:
     types: [completed]
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump event payload
+        run: |
+          echo "event: ${{ github.event.workflow_run.event }}"
+          echo "ref: ${{ github.event.workflow_run.ref }}"
+          echo "head_branch: ${{ github.event.workflow_run.head_branch }}"
+          echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
   publish:
     if: ${{ github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.ref, 'refs/tags/')}}
     runs-on: ubuntu-latest
